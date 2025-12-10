@@ -75,6 +75,15 @@ The CYBERTRON7 server must have:
 - Appropriate permissions to write to `/dev` and `/prod` directories
 - SSH access configured
 
+### Important Note on Deployment Directories
+
+The deployment uses `/dev` and `/prod` directories as specified in the requirements. **Note:** `/dev` may conflict with the system device directory on Linux systems. If you encounter issues, consider modifying the deployment scripts to use alternative locations such as:
+- `/opt/dev` and `/opt/prod`
+- `/var/www/dev` and `/var/www/prod`
+- `/home/<user>/deployments/dev` and `/home/<user>/deployments/prod`
+
+To change the deployment directory, edit the `DEPLOY_DIR` variable in `_DEV.py` and `_PROD.py`.
+
 ## Troubleshooting
 
 ### Permission Denied Errors

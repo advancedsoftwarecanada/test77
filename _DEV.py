@@ -60,9 +60,7 @@ def main():
         # Clone the repository
         run_command(f"git clone --branch {BRANCH} {REPO_URL} {DEPLOY_DIR}")
     
-    # Pull latest changes
-    print("Pulling latest changes...")
-    run_command(f"git pull origin {BRANCH}", cwd=DEPLOY_DIR)
+
     
     # Display current commit
     print("\nCurrent deployment commit:")
