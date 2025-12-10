@@ -1,0 +1,45 @@
+name: Deploy to Server (CYBERTRON7)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Main Branch to CYBERTRON7
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Deploy to CYBERTRON7 Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.CYBERTRON7_SSH_KEY }}
+          SERVER_HOST: ${{ secrets.CYBERTRON7_HOST }}
+          SERVER_USER: ${{ secrets.CYBERTRON7_USER }}
+        run: |
+          # Setup SSH key
+          mkdir -p ~/.ssh
+          printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
+          
+          # Copy deployment script to server
+          scp _PROD.py ${SERVER_USER}@${SERVER_HOST}:/tmp/_PROD.py
+          
+          # Execute deployment script on server
+          ssh ${SERVER_USER}@${SERVER_HOST} "python3 /tmp/_PROD.py"
+          
+          echo "Deployment completed successfully!"
