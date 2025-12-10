@@ -10,6 +10,8 @@ jobs:
   deploy-prod:
     runs-on: ubuntu-latest
     name: Deploy Main Branch to CYBERTRON7
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
