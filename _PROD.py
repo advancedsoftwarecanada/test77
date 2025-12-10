@@ -60,8 +60,6 @@ def main():
         # Clone the repository
         run_command(f"git clone --branch {BRANCH} {REPO_URL} {DEPLOY_DIR}")
     
-
-    
     # Display current commit
     print("\nCurrent deployment commit:")
     run_command("git log -1 --oneline", cwd=DEPLOY_DIR)
